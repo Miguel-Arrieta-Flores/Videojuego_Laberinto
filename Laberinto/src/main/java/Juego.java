@@ -4,19 +4,16 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 public class Juego extends JPanel {
     private Laberinto laberinto;
     private Personaje personaje;
     private int nivelSeleccionado = 1;
     private EstadoJuego estadoJuego = EstadoJuego.MENU;
-    private int opcionSeleccionada = 0;  // Variable para rastrear la opción seleccionada en el menú
-    private boolean nivelCompletado = false;  // Variable para rastrear si el nivel está completado
-
+    private int opcionSeleccionada = 0;
+    private boolean nivelCompletado = false;
     private enum EstadoJuego {
         MENU, JUEGO, FINALIZADO
     }
-
     public Juego() {
         addKeyListener(new KeyListener() {
             @Override
@@ -35,32 +32,31 @@ public class Juego extends JPanel {
                             estadoJuego = EstadoJuego.JUEGO;
                             iniciarJuego();
                         } else if (opcionSeleccionada == 1) {
-                            System.exit(0);  // Salir del juego
+                            System.exit(0);
                         }
                         repaint();
                     }
                 } else if (estadoJuego == EstadoJuego.JUEGO) {
                     personaje.teclaPresionada(e);
 
-                    // Verificar si el jugador ha llegado a la salida
                     if (laberinto.haLlegadoALaSalida(personaje)) {
                         nivelCompletado = true;
                         estadoJuego = EstadoJuego.FINALIZADO;
-                        repaint();  // Vuelve a dibujar el panel para mostrar la ventana de finalización
+                        repaint();
                     }
                 } else if (estadoJuego == EstadoJuego.FINALIZADO) {
                     if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_DOWN) {
                         actualizarOpcionSeleccionada(1);
-                        repaint();  // Vuelve a dibujar el panel para reflejar el cambio en la opción seleccionada
+                        repaint();
                     } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                        // Si el juego está finalizado y se presiona ENTER, realizar la acción según la opción seleccionada
+
                         if (opcionSeleccionada == 0) {
                             nivelSeleccionado++;
                             iniciarJuego();
                             estadoJuego = EstadoJuego.JUEGO;
                             nivelCompletado = false;
                         } else if (opcionSeleccionada == 1) {
-                            System.exit(0);  // Salir del juego
+                            System.exit(0);
                         }
                         repaint();
                     }
@@ -73,17 +69,14 @@ public class Juego extends JPanel {
         });
         setFocusable(true);
     }
-
     private void iniciarJuego() {
         laberinto = new Laberinto(nivelSeleccionado);
         personaje = new Personaje(laberinto, nivelSeleccionado);
         repaint();
     }
-
     private void actualizarOpcionSeleccionada(int direccion) {
         opcionSeleccionada = (opcionSeleccionada + direccion + 2) % 2;
     }
-
     private void mostrarMenuInicio(Graphics g) {
         String titulo = "Laberinto Generativo";
         String comenzar = "Comenzar";
@@ -107,11 +100,10 @@ public class Juego extends JPanel {
         g.drawString(opcionSeleccionada == 0 ? "->" : "  ", xComenzar, y + 20);
         g.drawString(opcionSeleccionada == 1 ? "->" : "  ", xSalir, y + 80);
     }
-
     private void mostrarVentanaFinalizacion(Graphics g) {
         String mensaje = nivelCompletado ? "¡Nivel completado!" : "¡Juego completado!";
         String siguienteNivel = nivelCompletado ? "Siguiente Nivel" : "Salir";
-        String salir = "Salir";  // Agregado: Texto para la opción "Salir"
+        String salir = "Salir";
 
         Font font = new Font("Arial", Font.BOLD, 20);
         g.setFont(font);
@@ -123,16 +115,14 @@ public class Juego extends JPanel {
 
         g.drawString(mensaje, x, y - 50);
         g.drawString(siguienteNivel, x, y + 20);
-        g.drawString(salir, x, y + 80);  // Agregado: Dibuja el texto para la opción "Salir"
+        g.drawString(salir, x, y + 80);
 
-        // Dibuja flechas indicativas junto a las opciones del menú de finalización
         int xSiguienteNivel = x - 30;
         int xSalir = x - 30;
 
         g.drawString(opcionSeleccionada == 0 ? "->" : "  ", xSiguienteNivel, y + 20);
         g.drawString(opcionSeleccionada == 1 ? "->" : "  ", xSalir, y + 80);
     }
-
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -145,7 +135,6 @@ public class Juego extends JPanel {
             mostrarVentanaFinalizacion(g);
         }
     }
-
     public static void main(String[] args) throws InterruptedException {
         JFrame miniventana = new JFrame("Laberinto Generativo");
         Juego game = new Juego();
