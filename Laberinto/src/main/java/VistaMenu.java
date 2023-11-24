@@ -38,31 +38,40 @@ public class VistaMenu extends JFrame {
         redimensionarYEstablecerImagen(label1, rutaImagen, 60, 60);
         label1.setBounds(0,20,130,130);
         panel1.add(label1);
-        espacio1=new JLabel();
-        espacio1.setText("                                                               ");
-        panel1.add(espacio1);
+
+        nombre=new JLabel();
+        nombre.setFont(new Font("Arial", Font.BOLD, 13));
+        nombre.setForeground(Color.BLACK);
+        nombre.setText("VIDEOJUEGO DE LABERINTOS");
+        panel1.add(nombre);
 
         espacio1=new JLabel();
-        espacio1.setText("                                                               ");
+        espacio1.setText("                         ");
         panel1.add(espacio1);
 
-        String puntaje=String.valueOf(game.puntaje(puntos));
-        label3=new JLabel(puntaje);
+        label3=new JLabel();
+        label3.setFont(new Font("Arial", Font.BOLD, 19));
+        label3.setForeground(Color.BLACK);
+        label3.setText("ESTRUCTURA DE DATOS 1310");
         panel1.add(label3);
 
         espacio2=new JLabel();
-        espacio2.setText("                                                               ");
+        espacio2.setText("                                    ");
         panel1.add(espacio2);
 
         fecha=new JLabel();
+        fecha.setFont(new Font("Arial", Font.BOLD, 12));
+        fecha.setForeground(Color.BLACK);
         fecha.setText("Fecha:");
         panel1.add(fecha);
 
-        label2 = new JLabel(timeActual);
+        label2 = new JLabel(timeActual+" ");
         label2.setFont(new Font("Andale Mono", 3, 18));
         label2.setBounds(100,20,130,130);
         label2.setForeground(new Color(0,0,0));
         panel1.add(label2);
+
+        panel1.setBackground(new Color(189, 124, 124));
 
         gbc.gridx=0;
         gbc.gridy=1;
@@ -108,7 +117,7 @@ public class VistaMenu extends JFrame {
 
     public static void main(String[] args) {
         VistaMenu vistaMenu=new VistaMenu();
-        vistaMenu.setBounds(0,0,936,635);
+        vistaMenu.setBounds(0,0,935,632);
         vistaMenu.setVisible(true);
         vistaMenu.setResizable(false);
         vistaMenu.setLocationRelativeTo(null);
@@ -120,7 +129,6 @@ public class VistaMenu extends JFrame {
                 Logger.getLogger(Juego.class.getName()).log(Level.SEVERE, (String) null);
             }
             vistaMenu.game.repaint();
-            vistaMenu.game.puntaje(vistaMenu.puntos);
         }
     }
 }
