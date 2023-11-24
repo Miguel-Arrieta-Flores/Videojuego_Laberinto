@@ -14,6 +14,7 @@ public class Juego extends JPanel {
     private enum EstadoJuego {
         MENU, JUEGO, FINALIZADO
     }
+
     public Juego() {
         addKeyListener(new KeyListener() {
             @Override
@@ -78,13 +79,16 @@ public class Juego extends JPanel {
         opcionSeleccionada = (opcionSeleccionada + direccion + 2) % 2;
     }
     private void mostrarMenuInicio(Graphics g) {
+        ImageIcon fondo=new ImageIcon("nuevo4.jpg");
+        g.drawImage(fondo.getImage(),0,0,930,650,this);
+
         String titulo = "Laberinto Generativo";
         String comenzar = "Comenzar";
         String salir = "Salir";
 
         Font font = new Font("Arial", Font.BOLD, 20);
         g.setFont(font);
-        g.setColor(Color.BLACK);
+        g.setColor(Color.WHITE);
 
         FontMetrics metrics = g.getFontMetrics(font);
         int xTitulo = (getWidth() - metrics.stringWidth(titulo)) / 2;
@@ -99,15 +103,18 @@ public class Juego extends JPanel {
 
         g.drawString(opcionSeleccionada == 0 ? "->" : "  ", xComenzar, y + 20);
         g.drawString(opcionSeleccionada == 1 ? "->" : "  ", xSalir, y + 80);
+
     }
     private void mostrarVentanaFinalizacion(Graphics g) {
+        ImageIcon fondo=new ImageIcon("reintentar.jpg");
+        g.drawImage(fondo.getImage(),0,0,920,525,this);
         String mensaje = nivelCompletado ? "¡Nivel completado!" : "¡Juego completado!";
         String siguienteNivel = nivelCompletado ? "Siguiente Nivel" : "Salir";
         String salir = "Salir";
 
         Font font = new Font("Arial", Font.BOLD, 20);
         g.setFont(font);
-        g.setColor(Color.BLACK);
+        g.setColor(Color.WHITE);
 
         FontMetrics metrics = g.getFontMetrics(font);
         int x = (getWidth() - metrics.stringWidth(mensaje)) / 2;
@@ -140,8 +147,8 @@ public class Juego extends JPanel {
         Juego game = new Juego();
         miniventana.add(game);
 
-        miniventana.setSize(937, 560);
-        miniventana.setLocation(300, 200);
+        miniventana.setSize(940, 580);
+        miniventana.setLocation(200, 30);
         miniventana.setVisible(true);
 
         miniventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -154,5 +161,15 @@ public class Juego extends JPanel {
             }
             game.repaint();
         }
+    }
+
+    public int puntaje(int puntos){
+        int puntaje=puntos;
+        if (nivelCompletado==true){
+            puntaje+=100;
+        }else{
+            puntaje=puntos;
+        }
+        return puntaje;
     }
 }
