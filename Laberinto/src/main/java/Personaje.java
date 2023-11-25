@@ -1,4 +1,6 @@
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 
 public class Personaje {
@@ -9,50 +11,62 @@ public class Personaje {
     private final int alto = 40;
     private final int movimiento = 40;
     private int numeroLaberinto;
+
     public Personaje(Laberinto laberinto, int numeroLaberinto) {
         this.lab = laberinto;
         this.numeroLaberinto = numeroLaberinto;
     }
+
     public void paint(Graphics grafico) {
         grafico.setColor(Color.RED);
-        grafico.fillOval(x, y, ancho, alto);
+        grafico.fillOval(this.x, this.y, 40, 40);
         grafico.setColor(Color.BLACK);
-        grafico.drawOval(x, y, ancho, alto);
+        grafico.drawOval(this.x, this.y, 40, 40);
     }
-    public void teclaPresionada(KeyEvent evento) {
-        int[][] laberinto = lab.obtieneLaberinto(numeroLaberinto);
 
-        if (evento.getKeyCode() == KeyEvent.VK_LEFT) {
-            moverIzquierda(laberinto);
-        } else if (evento.getKeyCode() == KeyEvent.VK_RIGHT) {
-            moverDerecha(laberinto);
-        } else if (evento.getKeyCode() == KeyEvent.VK_DOWN) {
-            moverAbajo(laberinto);
-        } else if (evento.getKeyCode() == KeyEvent.VK_UP) {
-            moverArriba(laberinto);
+    public void teclaPresionada(KeyEvent evento) {
+        int[][] laberinto = this.lab.obtieneLaberinto(this.numeroLaberinto);
+        if (evento.getKeyCode() == 37) {
+            this.moverIzquierda(laberinto);
+        } else if (evento.getKeyCode() == 39) {
+            this.moverDerecha(laberinto);
+        } else if (evento.getKeyCode() == 40) {
+            this.moverAbajo(laberinto);
+        } else if (evento.getKeyCode() == 38) {
+            this.moverArriba(laberinto);
         }
+
     }
+
     private void moverIzquierda(int[][] laberinto) {
-        if (x - movimiento >= 0 && laberinto[y / 40][(x / 40) - 1] != 1) {
-            x = x - movimiento;
+        if (this.x - 40 >= 0 && laberinto[this.y / 40][this.x / 40 - 1] != 1) {
+            this.x -= 40;
         }
+
     }
+
     private void moverDerecha(int[][] laberinto) {
-        if (x + movimiento < laberinto[0].length * 40 && laberinto[y / 40][(x / 40) + 1] != 1) {
-            x = x + movimiento;
+        if (this.x + 40 < laberinto[0].length * 40 && laberinto[this.y / 40][this.x / 40 + 1] != 1) {
+            this.x += 40;
         }
+
     }
+
     private void moverAbajo(int[][] laberinto) {
-        if (y + movimiento < laberinto.length * 40 && laberinto[(y / 40) + 1][x / 40] != 1) {
-            y = y + movimiento;
+        if (this.y + 40 < laberinto.length * 40 && laberinto[this.y / 40 + 1][this.x / 40] != 1) {
+            this.y += 40;
         }
+
     }
+
     private void moverArriba(int[][] laberinto) {
-        if (y - movimiento >= 0 && laberinto[(y / 40) - 1][x / 40] != 1) {
-            y = y - movimiento;
+        if (this.y - 40 >= 0 && laberinto[this.y / 40 - 1][this.x / 40] != 1) {
+            this.y -= 40;
         }
+
     }
+
     public Point getCoordenadas() {
-        return new Point(x, y);
+        return new Point(this.x, this.y);
     }
 }
